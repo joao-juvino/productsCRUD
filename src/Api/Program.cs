@@ -52,7 +52,11 @@ await using (var scope = app.Services.CreateAsyncScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => 
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Products API V1");
+        c.RoutePrefix = "swagger"; 
+    });
 }
 
 app.UseMiddleware<GlobalExceptionMiddleware>();

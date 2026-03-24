@@ -1,5 +1,7 @@
 namespace ProductsCRUD.Domain.Entities;
 
+using ProductsCRUD.Domain.Exceptions;
+
 public sealed class Product
 {
     public Guid Id { get; private set; }
