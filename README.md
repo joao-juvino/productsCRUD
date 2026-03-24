@@ -72,6 +72,13 @@ O projeto possui testes de integração utilizando:
 * `WebApplicationFactory`
 * Banco Mongo em ambiente de teste isolado
 
+### Adicionar as variáveis de ambiente
+
+```bash
+dotnet user-secrets init
+dotnet user-secrets set "MongoDb:ConnectionString" "<your-private-connection-string>"
+```
+
 ### Executar testes
 
 ```bash
@@ -86,20 +93,15 @@ Para gerar relatório de cobertura:
 
 ```bash
 dotnet test --collect:"XPlat Code Coverage"
-reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coveragereport
+~/.dotnet/tools/reportgenerator "-reports:tests/ProductsCRUD.Tests/TestResults/**/coverage.cobertura.xml" "-targetdir:coveragereport" -reporttypes:Html
 ```
+
+*Dica*: uma das melhores formas de visualizar o relatório é através do arquivo coveragereport/index.html
 
 ### 📈 Status atual
 
 * **Line Coverage:** 82%
 * **Branch Coverage:** 50%
-
-### 🎯 Como melhorar
-
-* Testar cenários de erro (exceptions)
-* Testar validações de domínio
-* Testar fluxos negativos (ex: ID inválido, produto inexistente)
-* Testar soft delete
 
 ---
 ## ▶️ Executando o Projeto
@@ -117,14 +119,7 @@ dotnet user-secrets init
 2. Configure a string de conexão:
 
 ```bash
-dotnet user-secrets set "MongoDb:ConnectionString" "mongodb://localhost:27017"
-dotnet user-secrets set "MongoDb:DatabaseName" "ProductsDb"
-```
-
-Ou, utilizando MongoDB Atlas:
-
-```bash
-dotnet user-secrets set "MongoDb:ConnectionString" "mongodb+srv://<user>:<password>@cluster.mongodb.net/?retryWrites=true&w=majority"
+dotnet user-secrets set "MongoDb:ConnectionString" "<your-private-connection-string>"
 ```
 
 3. Verifique:
@@ -146,18 +141,18 @@ dotnet run
 
 ### 🔹 Executando com Docker
 
-Para execução via container, utilize variáveis de ambiente no `docker-compose.yml`:
+Para execução via container, utilize adicione as variáveis de ambiente em um arquivo .env:
 
-```yaml
-environment:
-  - MongoDb__ConnectionString=mongodb://mongo:27017
-  - MongoDb__DatabaseName=ProductsDb
+```bash
+cp .env.example .env
 ```
+
+*Nota*: para preencher os valores privados, entre em contato com o time de desenvolvimento.
 
 Suba os serviços:
 
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 ---
@@ -255,18 +250,9 @@ tests/
 
 ---
 
-## 📌 Melhorias Futuras
-
-* Autenticação (JWT)
-* Paginação avançada
-* Filtros dinâmicos
-* Logs estruturados (Serilog)
-* CI/CD pipeline
-* Versionamento de API
-
----
-
 ## 👨‍💻 Autor
+
+**João Pedro Juvino dos Santos** - [Seu LinkedIn](https://www.linkedin.com/in/jo%C3%A3o-santos-b6864123b/)
 
 Desenvolvido como parte de avaliação técnica, com foco em:
 
@@ -282,16 +268,3 @@ Desenvolvido como parte de avaliação técnica, com foco em:
 ✔️ Testado
 ✔️ Documentado
 ✔️ Pronto para evolução
-
----
-
-## 💡 Considerações Finais
-
-Este projeto não é apenas um CRUD simples — ele demonstra:
-
-* Organização arquitetural real
-* Aplicação de DDD
-* Boas práticas de mercado
-* Preparação para sistemas maiores
-
----
