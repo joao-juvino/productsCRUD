@@ -29,7 +29,9 @@ jobs:
           dotnet test \
             --no-build \
             --configuration Release \
-            --collect:"XPlat Code Coverage" 
+            /p:CollectCoverage=true \
+            /p:CoverletOutput=./coverage/ \
+            /p:CoverletOutputFormat=cobertura
 
       - name: 📊 Instalar ReportGenerator
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
@@ -37,7 +39,7 @@ jobs:
       - name: 📈 Gerar relatório de cobertura
         run: |
           reportgenerator \
-            -reports:tests/ProductsCRUD.Tests/TestResults/**/coverage.cobertura.xml \
+            -reports:./coverage/coverage.cobertura.xml \
             -targetdir:./coverage-report \
             -reporttypes:TextSummary
 
