@@ -3,11 +3,21 @@ name: CI - ProductsCRUD
 on:
   push:
     branches:
-      - main
+      - 'feat/add_ci'
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+
+    env:
+      MongoDb__ConnectionString: mongodb://localhost:27017
+      MongoDb__DatabaseName: ProductsCRUD_Test
 
     steps:
       - name: 📥 Checkout do código
@@ -18,13 +28,13 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: 📦 Restaurar dependências
+      - name: 📦 Restore
         run: dotnet restore
 
       - name: 🏗️ Build
         run: dotnet build --no-restore --configuration Release
 
-      - name: 🧪 Rodar testes com cobertura
+      - name: 🧪 Test + Coverage
         run: |
           dotnet test \
             --no-build \
@@ -33,17 +43,22 @@ jobs:
             /p:CoverletOutput=./coverage/ \
             /p:CoverletOutputFormat=cobertura
 
-      - name: 📊 Instalar ReportGenerator
+      - name: 📊 Install ReportGenerator
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
-      - name: 📈 Gerar relatório de cobertura
+      - name: 🔍 Debug coverage files
+        run: |
+          echo "Listing coverage files..."
+          find . -name "*.cobertura.xml"
+
+      - name: 📈 Generate coverage report
         run: |
           reportgenerator \
             -reports:**/coverage.cobertura.xml \
             -targetdir:./coverage-report \
             -reporttypes:TextSummary
 
-      - name: 🚨 Validar cobertura mínima (80%)
+      - name: 🚨 Validate coverage (>=80%)
         run: |
           COVERAGE=$(grep -Po 'Line coverage: \K[0-9.]+' coverage-report/Summary.txt)
           echo "Coverage: $COVERAGE%"
