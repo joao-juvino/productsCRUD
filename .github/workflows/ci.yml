@@ -3,7 +3,7 @@ name: CI - ProductsCRUD
 on:
   push:
     branches:
-      - 'feat/add_ci'
+      - 'main'
 
 jobs:
   build-and-test:
