@@ -1,0 +1,11 @@
+services:
+  api:
+    build: .
+    container_name: products-api
+    ports:
+      - "5000:8080"
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    restart: always
