@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>b3c52c48-991d-48b4-8971-2375dc8ee7db</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Test SDK -->
+    <PackageReference Include="coverlet.collector" Version="8.0.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    
+    <!-- WebApplicationFactory -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+
+    <!-- Assertions -->
+    <PackageReference Include="FluentAssertions" Version="8.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Referência para o projeto principal -->
+    <ProjectReference Include="../../ProductsCRUD.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.Testing.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
