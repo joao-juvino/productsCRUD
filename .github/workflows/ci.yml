@@ -39,7 +39,7 @@ jobs:
       - name: 📈 Gerar relatório de cobertura
         run: |
           reportgenerator \
-            -reports:./coverage/coverage.cobertura.xml \
+            -reports:**/coverage.cobertura.xml \
             -targetdir:./coverage-report \
             -reporttypes:TextSummary
 
